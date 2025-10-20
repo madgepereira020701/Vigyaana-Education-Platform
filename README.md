@@ -55,7 +55,8 @@ Find website live at: [https://inquisitive-druid-af8f26.netlify.app/](https://in
 5. The backend is deployed on Render with environment variables.  
 6. The frontend is built using React and Vite, connected to the backend API, and hosted on Netlify for live access.  
 
-<!--
+---
+
 ## Project Structure
 
 ### Backend
@@ -74,64 +75,27 @@ Root directory for backend: `/backend`
   Middleware to verify and secure routes using JWT tokens.
 
 - **models/**
-  - **course.js**
-    ```js
-    const mongoose = require("mongoose");
-
-    const courseSchema = new mongoose.Schema({
-      id: String,
-      title: String,
-      instructor: String,
-      duration: String,
-    });
-
-    module.exports = mongoose.model("Course", courseSchema);
-    ```
-  - **enrollment.js**  
-    Defines schema for enrolled courses.
-  - **user.js**  
-    Defines schema for users. Passwords are hashed.
+  - **course.js**: Defines schema for courses that students can enrol in.
+  - **enrollment.js**: Defines schema for enrolled courses.
+  - **user.js**: Defines schema for users. Passwords are hashed.
 
 - **routes/**
-  - **courseRoutes.js**
-    ```js
-    const express = require("express");
-    const router = express.Router();
-    const { getCourses } = require("../controllers/courseController");
-
-    // Maps the route to the controller function
-    router.get("/", getCourses);
-
-    module.exports = router;
-    ```
-  - **enrollRoutes.js**
-    ```js
-    const express = require("express");
-    const router = express.Router();
-    const {
-      enrollCourse,
-      getMyCourses,
-    } = require("../controllers/enrollController");
-
-    // URL -> Controller mapping
-    router.post("/", enrollCourse); // POST /api/enroll
-    router.get("/my-courses", getMyCourses); // GET /api/enroll/my-courses
-
-    module.exports = router;
-    ```
+  - **courseRoutes.js**: Defines the route to fetch all available courses and links it to the course controller.
+  - **enrollRoutes.js**:  Handles enrollment-related routes, including enrolling a user in a course and fetching the user's enrolled courses.
 
 - **app.js**  
   Main entry file for backend configuration and route handling.
 
----
+
+<hr style="border: 0.5px solid #000;">
+
 
 ### Database Structure (MongoDB Atlas)
 Created under a project named **Vigyanna**, within a database called **TEST**.
 
 #### Collections:
 
-**Courses Collection:**
-```json
+**courses Collection:**
 {
   "id": "C001",
   "title": "Introduction to JavaScript",
@@ -140,4 +104,45 @@ Created under a project named **Vigyanna**, within a database called **TEST**.
   "_id": "ObjectId(...)"
 }
 
--->
+**enrollments  Collection:**
+{
+  "userId": "abc123",
+  "courseId": "C001",
+  "title": "Introduction to JavaScript",
+  "instructor": "Alice Johnson",
+  "duration": "4 weeks",
+  "enrolledAt": "2025-10-19T19:39:03.487+00:00"
+}
+Note: The userId field corresponds to the _id field of the respective user in string format.
+
+**users Collection:**
+{
+  "username": "Zayn",
+  "email": "zayn@gmail.com",
+  "password": "$2b$10$EwhnX0Y1jZDGoMi"
+}
+
+<hr style="border: 0.5px solid #000;">
+
+### Frontend
+
+**Root directory:** `/frontend`
+
+#### Folder Structure
+
+- **dist/** – Contains the production build files.  
+- **public/** – Contains static assets (e.g., vite.svg).  
+- **src/**  
+  - **components/** – Reusable UI components.  
+  - **pages/** – Contains Course Catalog, Dashboard, Login, etc.  
+  - **service/api.js** – Handles API calls for authentication and data fetching.  
+  - **App.jsx** – Main application component that imports all other components.  
+  - **App.css** – Styles for the app.  
+  - **index.css** and **main.jsx** – Entry point for the React app.
+
+### Other Files
+- `vite.config.js`  
+- `eslint.config.js`  
+- `index.html`  
+- `package.json` and `package-lock.json`  
+
