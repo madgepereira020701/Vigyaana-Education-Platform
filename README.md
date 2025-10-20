@@ -50,9 +50,9 @@ Find website live at: [https://inquisitive-druid-af8f26.netlify.app/](https://in
 
 1. The project follows a modular and structured MERN architecture.  
 2. The backend is placed in a dedicated `/backend` folder with routes, controllers, and models clearly separated.  
-3. JWT authentication is implemented for signup and login, ensuring secure access to the dashboard and enrollment endpoints.  
-4. The MongoDB Atlas database is organized under the Vigyanna project, with three collections—courses, enrollments, and users—each handling its respective data schema.  
-5. The backend is deployed on Render with environment variables for secure configuration.  
+3. JWT authentication is implemented for signup and login, for access to the dashboard and enrollment endpoints.  
+4. The MongoDB Atlas database is organized under the Vigyanna project in a cluster, with three collections— courses, enrollments, and users —each handling its respective data schema.  
+5. The backend is deployed on Render with environment variables.  
 6. The frontend is built using React and Vite, connected to the backend API, and hosted on Netlify for live access.  
 
 <!--
