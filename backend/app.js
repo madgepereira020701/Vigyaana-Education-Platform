@@ -5,6 +5,7 @@ const enrollRoutes = require("./routes/enrollRoutes");
 const cors = require("cors");
 const authcontroller = require("./controllers/auth");
 require("dotenv").config(); // loads .env variables
+const PORT = process.env.PORT; // Hardcoded secret key
 
 const app = express();
 app.use(express.json());
@@ -21,4 +22,4 @@ app.post("/updatepassword/:token", authcontroller.updatePassword);
 app.post("/userregister", authcontroller.userregister);
 app.post("/userlogin", authcontroller.userlogin);
 
-app.listen(3000, () => console.log("Server running on port 3000"));
+app.listen(PORT, () => console.log("Server running on port 3000"));

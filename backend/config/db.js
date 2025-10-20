@@ -1,14 +1,12 @@
 const mongoose = require("mongoose");
+const MONGO_URL = process.env.MONGO_URL; // Hardcoded secret key
 
 const connectDB = async () => {
   try {
-    await mongoose.connect(
-      "mongodb+srv://vigyaana:anaaygiv1234@cluster0.jpqqoz4.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0",
-      {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-      }
-    );
+    await mongoose.connect(MONGO_URL, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
     console.log("MongoDB connected");
   } catch (err) {
     console.error(err.message);
