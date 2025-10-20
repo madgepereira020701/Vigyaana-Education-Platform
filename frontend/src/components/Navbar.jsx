@@ -44,12 +44,12 @@ const Header = ({ setIsAuthenticated }) => {
           <ul className="navbar-nav">
             <li className="nav-item mx-2">
               <NavLink className="nav-link" to="/courses">
-                Course Catalog
+                Dashboard
               </NavLink>
             </li>
             <li className="nav-item mx-2">
               <NavLink className="nav-link" to="/dashboard">
-                Dashboard
+              Course Catalog
               </NavLink>
             </li>
           </ul>
