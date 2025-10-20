@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import { useNavigate, Navigate } from 'react-router-dom';
+import { 
+  //useNavigate,
+   Navigate } from 'react-router-dom';
 import { API } from '../../../service/api';
 import './Auth.css';
 
@@ -19,7 +21,7 @@ const Auth = ({ setIsAuthenticated, setUserName }) => {
   const [login, setLogin] = useState(loginInitialValues);
   const [account, toggleAccount] = useState('login');
   const [error, setError] = useState('');
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
   const [warnings, setWarnings] = useState({});
   const [showPassword, setShowPassword] = useState(false);
   const [redirectToHome, setRedirectToHome] = useState(false);
@@ -30,9 +32,9 @@ const Auth = ({ setIsAuthenticated, setUserName }) => {
     setWarnings({});
   };
 
-  const handleClick = () => {
-    navigate('./confirmemail');
-  };
+  // const handleClick = () => {
+  //   navigate('./confirmemail');
+  // };
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -159,7 +161,7 @@ const Auth = ({ setIsAuthenticated, setUserName }) => {
             </span>
           </div>
 
-          <p onClick={handleClick} style={{ textAlign: "start" }}>Forgot Password?</p>
+          {/* <p onClick={handleClick} style={{ textAlign: "start" }}>Forgot Password?</p> */}
 
           {warnings.password && <p className="warning-message">{warnings.password}</p>}
           {error && <p className="error-message">{error}</p>}
