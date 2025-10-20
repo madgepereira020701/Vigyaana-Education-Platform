@@ -1,26 +1,13 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-const CourseCard = ({ course }) => {
-  // Proper enroll handler with API call
-  const handleEnroll = () => {
-    fetch("http://localhost:3000/api/enroll", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        userId: "abc123",   // Replace with actual logged-in user ID
-        courseId: course.id,
-        title: course.title,
-        instructor: course.instructor,
-        duration: course.duration,
-      }),
-    })
-      .then((res) => {
-        if (!res.ok) throw new Error("Enrollment failed");
-        return res.json();
-      })
-      .then((data) => alert(data.message))
-      .catch((err) => console.error("Enrollment error:", err));
+const CourseCard = ({ course, onEnroll, isLoggedIn, enrolled }) => {
+  const handleClick = () => {
+    if (!isLoggedIn) {
+      alert("Please log in to enroll in a course.");
+      return;
+    }
+    onEnroll(course);
   };
 
   return (
@@ -32,19 +19,6 @@ const CourseCard = ({ course }) => {
         transition: "transform 0.2s ease, box-shadow 0.2s ease",
       }}
     >
-      {course.image && (
-        <img
-          src={course.image}
-          className="card-img-top"
-          alt={course.title}
-          style={{
-            height: "160px",
-            objectFit: "cover",
-            borderTopLeftRadius: "10px",
-            borderTopRightRadius: "10px",
-          }}
-        />
-      )}
       <div className="card-body">
         <h5 className="card-title">{course.title}</h5>
         <p className="card-text mb-1">
@@ -53,8 +27,12 @@ const CourseCard = ({ course }) => {
         <p className="card-text text-muted">
           <strong>Duration:</strong> {course.duration}
         </p>
-        <button className="btn btn-primary w-100 mt-2" onClick={handleEnroll}>
-          Enroll
+
+        <button
+          className="btn btn-primary w-100 mt-2"
+          onClick={handleClick}
+        >
+          {enrolled ? "Enrolled" : "Enroll"}
         </button>
       </div>
     </div>

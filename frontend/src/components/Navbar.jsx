@@ -1,9 +1,19 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../App.css";
 
-const Header = () => {
+const Header = ({ setIsAuthenticated }) => {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem("user");
+    localStorage.removeItem("userName");
+    localStorage.removeItem("token");
+    setIsAuthenticated(false); // now works, updates App state
+    navigate("/"); // redirect to login page
+  };
+
   return (
     <nav className="navbar navbar-expand-lg bg-light shadow-sm py-3">
       <div className="container">
@@ -33,7 +43,7 @@ const Header = () => {
           {/* Left-aligned links */}
           <ul className="navbar-nav">
             <li className="nav-item mx-2">
-              <NavLink className="nav-link" to="/">
+              <NavLink className="nav-link" to="/courses">
                 Course Catalog
               </NavLink>
             </li>
@@ -44,19 +54,26 @@ const Header = () => {
             </li>
           </ul>
 
-          {/* Right-aligned search form */}
-          <form className="d-flex mt-3 mt-lg-0" role="search">
-            <input
-              className="form-control me-2"
-              type="search"
-              placeholder="Search"
-              aria-label="Search"
-              style={{ width: "220px" }}
-            />
-            <button className="btn btn-outline-primary" type="submit">
-              Search
+          {/* Right-aligned search form + logout */}
+          <div className="d-flex align-items-center mt-3 mt-lg-0">
+            <form className="d-flex me-2" role="search">
+              <input
+                className="form-control me-2"
+                type="search"
+                placeholder="Search"
+                aria-label="Search"
+                style={{ width: "220px" }}
+              />
+              <button className="btn btn-outline-primary" type="submit">
+                Search
+              </button>
+            </form>
+
+            {/* Logout button always visible */}
+            <button className="btn btn-outline-danger" onClick={handleLogout}>
+              Logout
             </button>
-          </form>
+          </div>
         </div>
       </div>
     </nav>

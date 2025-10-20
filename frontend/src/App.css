@@ -40,3 +40,20 @@
 .read-the-docs {
   color: #888;
 }
+
+button {
+  background-color: #1d4ed8;
+  /* primary blue shade */
+  color: white;
+  /* text color */
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #2563eb;
+  /* darker shade on hover */
+}
