@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom"; // import navigate
+import { useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
   const [enrolledCourses, setEnrolledCourses] = useState([]);
   const [error, setError] = useState(null);
-  const navigate = useNavigate(); // initialize navigate
+  const navigate = useNavigate();
 
+  // Get userId from localStorage
   const userId = localStorage.getItem("userId");
 
   useEffect(() => {
@@ -24,7 +25,7 @@ const Dashboard = () => {
   }, [userId]);
 
   const handleContinueLearning = () => {
-    navigate("/courses"); // navigate to /courses without page reload
+    navigate("/courses");
   };
 
   if (error) {
@@ -58,20 +59,6 @@ const Dashboard = () => {
 
       {enrolledCourses.length === 0 ? (
         <div style={{ textAlign: "center" }}>
-          <p
-            style={{
-              color: "#64748b",
-              fontSize: "1.1rem",
-              backgroundColor: "#fff",
-              borderRadius: "10px",
-              padding: "40px",
-              boxShadow: "0 4px 10px rgba(0,0,0,0.05)",
-              maxWidth: "600px",
-              margin: "0 auto 20px",
-            }}
-          >
-            You haven't enrolled in any courses yet.
-          </p>
           <button
             onClick={handleContinueLearning}
             style={{
@@ -82,10 +69,26 @@ const Dashboard = () => {
               borderRadius: "5px",
               cursor: "pointer",
               fontWeight: "600",
+              marginBottom: "20px",
             }}
           >
             Continue Learning
           </button>
+
+          <p
+            style={{
+              color: "#64748b",
+              fontSize: "1.1rem",
+              backgroundColor: "#fff",
+              borderRadius: "10px",
+              padding: "40px",
+              boxShadow: "0 4px 10px rgba(0,0,0,0.05)",
+              maxWidth: "600px",
+              margin: "0 auto",
+            }}
+          >
+            You haven't enrolled in any courses yet.
+          </p>
         </div>
       ) : (
         <>
@@ -111,14 +114,22 @@ const Dashboard = () => {
                 }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.transform = "translateY(-5px)";
-                  e.currentTarget.style.boxShadow = "0 8px 16px rgba(0,0,0,0.15)";
+                  e.currentTarget.style.boxShadow =
+                    "0 8px 16px rgba(0,0,0,0.15)";
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.transform = "translateY(0)";
-                  e.currentTarget.style.boxShadow = "0 4px 8px rgba(0,0,0,0.1)";
+                  e.currentTarget.style.boxShadow =
+                    "0 4px 8px rgba(0,0,0,0.1)";
                 }}
               >
-                <h3 style={{ color: "#1d4ed8", fontSize: "1.25rem", marginBottom: "10px" }}>
+                <h3
+                  style={{
+                    color: "#1d4ed8",
+                    fontSize: "1.25rem",
+                    marginBottom: "10px",
+                  }}
+                >
                   {course.title}
                 </h3>
                 <p>Course ID: {course.courseId}</p>
@@ -133,6 +144,7 @@ const Dashboard = () => {
               </div>
             ))}
           </div>
+
           <div style={{ textAlign: "center", marginTop: "30px" }}>
             <button
               onClick={handleContinueLearning}

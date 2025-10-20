@@ -4,11 +4,11 @@ import CourseCard from "../components/CourseCard";
 const CourseCatalog = () => {
   const [courses, setCourses] = useState([]);
   const [enrolledCourses, setEnrolledCourses] = useState([]);
-  const [toastMessage, setToastMessage] = useState(""); // <-- toast message
+  const [toastMessage, setToastMessage] = useState("");
   const userId = localStorage.getItem("userId");
 
   useEffect(() => {
-    fetch("https://vigyaana-education-platform.onrender.com/api/courses")
+    fetch("http://localhost:3000/api/courses")
       .then((res) => res.json())
       .then((data) => setCourses(data))
       .catch((err) => console.error("Error fetching courses:", err));
@@ -16,12 +16,9 @@ const CourseCatalog = () => {
 
   useEffect(() => {
     if (!userId) return;
-
-    fetch(`https://vigyaana-education-platform.onrender.com/api/enroll/my-courses?userId=${userId}`)
+    fetch(`http://localhost:3000/api/enroll/my-courses?userId=${userId}`)
       .then((res) => res.json())
-      .then((data) =>
-        setEnrolledCourses(data.map((c) => c.courseId)) // store courseIds only
-      )
+      .then((data) => setEnrolledCourses(data.map((c) => c.courseId)))
       .catch((err) => console.error("Error fetching enrolled courses:", err));
   }, [userId]);
 
@@ -47,49 +44,43 @@ const CourseCatalog = () => {
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || "Failed to enroll");
 
-      // Add courseId to enrolledCourses and show toast
-      setEnrolledCourses((prev) => [...prev, course._id]);
+      setEnrolledCourses((prev) => [...prev, course.id]);
       setToastMessage("Enrolled successfully!");
-
-      // Hide toast after 3 seconds
       setTimeout(() => setToastMessage(""), 3000);
     } catch (err) {
       console.error("Enrollment error:", err);
-      alert(err.message || "Something went wrong. Please try again.");
+      setToastMessage(err.message || "Something went wrong.");
+      setTimeout(() => setToastMessage(""), 3000);
     }
   };
 
   return (
-    <div style={{ padding: "20px" }}>
-      <h2>Course Catalog</h2>
+    <div className="container my-4">
+      <h2 className="mb-4">Course Catalog</h2>
 
+      {/* Toast Message */}
       {toastMessage && (
         <div
-          style={{
-            position: "fixed",
-            top: "20px",
-            right: "20px",
-            backgroundColor: "#22c55e",
-            color: "#fff",
-            padding: "10px 20px",
-            borderRadius: "5px",
-            boxShadow: "0 2px 6px rgba(0,0,0,0.2)",
-            zIndex: 1000,
-          }}
+          className="position-fixed top-0 end-0 m-3 p-2 rounded text-white"
+          style={{ backgroundColor: "#22c55e", zIndex: 1050 }}
         >
           {toastMessage}
         </div>
       )}
 
-      <div style={{ display: "flex", flexWrap: "wrap", gap: "20px" }}>
+      <div className="row g-4">
         {courses.map((course) => (
-          <CourseCard
-            key={course._id}
-            course={course}
-            onEnroll={handleEnroll}
-            isLoggedIn={!!userId}
-            enrolled={enrolledCourses.includes(course._id)}
-          />
+          <div
+            key={course.id}
+            className="col-12 col-md-6 col-lg-3"
+          >
+            <CourseCard
+              course={course}
+              onEnroll={handleEnroll}
+              isLoggedIn={!!userId}
+              enrolled={enrolledCourses.includes(course.id)}
+            />
+          </div>
         ))}
       </div>
     </div>
