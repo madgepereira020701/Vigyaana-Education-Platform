@@ -43,12 +43,12 @@ const Header = ({ setIsAuthenticated }) => {
           {/* Left-aligned links */}
           <ul className="navbar-nav">
             <li className="nav-item mx-2">
-              <NavLink className="nav-link" to="/courses">
+              <NavLink className="nav-link" to="/dashboard">
                 Dashboard
               </NavLink>
             </li>
             <li className="nav-item mx-2">
-              <NavLink className="nav-link" to="/dashboard">
+              <NavLink className="nav-link" to="/courses">
               Course Catalog
               </NavLink>
             </li>
