@@ -4,22 +4,20 @@ import CourseCard from "../components/CourseCard";
 const CourseCatalog = () => {
   const [courses, setCourses] = useState([]);
   const [enrolledCourses, setEnrolledCourses] = useState([]);
+  const [toastMessage, setToastMessage] = useState(""); // <-- toast message
+  const userId = localStorage.getItem("userId");
 
-  const userId = localStorage.getItem("userId"); // only userId
-
-  // Fetch all courses
   useEffect(() => {
-    fetch("http://localhost:3000/api/courses")
+    fetch("https://vigyaana-education-platform.onrender.com/api/courses")
       .then((res) => res.json())
       .then((data) => setCourses(data))
       .catch((err) => console.error("Error fetching courses:", err));
   }, []);
 
-  // Fetch enrolled courses
   useEffect(() => {
     if (!userId) return;
 
-    fetch(`http://localhost:3000/api/enroll/my-courses?userId=${userId}`)
+    fetch(`https://vigyaana-education-platform.onrender.com/api/enroll/my-courses?userId=${userId}`)
       .then((res) => res.json())
       .then((data) =>
         setEnrolledCourses(data.map((c) => c.courseId)) // store courseIds only
@@ -27,7 +25,6 @@ const CourseCatalog = () => {
       .catch((err) => console.error("Error fetching enrolled courses:", err));
   }, [userId]);
 
-  // Handle enrollment
   const handleEnroll = async (course) => {
     if (!userId) {
       alert("Please log in to enroll in a course.");
@@ -40,7 +37,7 @@ const CourseCatalog = () => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           userId,
-          courseId: course.id, // backend expects courseId
+          courseId: course.id,
           title: course.title,
           instructor: course.instructor,
           duration: course.duration,
@@ -50,8 +47,12 @@ const CourseCatalog = () => {
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || "Failed to enroll");
 
-      alert(data.message);
+      // Add courseId to enrolledCourses and show toast
       setEnrolledCourses((prev) => [...prev, course._id]);
+      setToastMessage("Enrolled successfully!");
+
+      // Hide toast after 3 seconds
+      setTimeout(() => setToastMessage(""), 3000);
     } catch (err) {
       console.error("Enrollment error:", err);
       alert(err.message || "Something went wrong. Please try again.");
@@ -59,8 +60,27 @@ const CourseCatalog = () => {
   };
 
   return (
-    <div>
+    <div style={{ padding: "20px" }}>
       <h2>Course Catalog</h2>
+
+      {toastMessage && (
+        <div
+          style={{
+            position: "fixed",
+            top: "20px",
+            right: "20px",
+            backgroundColor: "#22c55e",
+            color: "#fff",
+            padding: "10px 20px",
+            borderRadius: "5px",
+            boxShadow: "0 2px 6px rgba(0,0,0,0.2)",
+            zIndex: 1000,
+          }}
+        >
+          {toastMessage}
+        </div>
+      )}
+
       <div style={{ display: "flex", flexWrap: "wrap", gap: "20px" }}>
         {courses.map((course) => (
           <CourseCard
@@ -68,7 +88,7 @@ const CourseCatalog = () => {
             course={course}
             onEnroll={handleEnroll}
             isLoggedIn={!!userId}
-            enrolled={enrolledCourses.includes(course._id)} // pass enrolled status
+            enrolled={enrolledCourses.includes(course._id)}
           />
         ))}
       </div>

@@ -1,28 +1,40 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../App.css";
 
 const Header = ({ setIsAuthenticated }) => {
   const navigate = useNavigate();
+  const [userInitials, setUserInitials] = useState("");
+
+  // Get userName from localStorage on mount
+  useEffect(() => {
+    const name = localStorage.getItem("userName");
+    if (name) {
+      const initials = name
+        .split(" ")
+        .map((n) => n[0].toUpperCase())
+        .join("");
+      setUserInitials(initials);
+    }
+  }, []);
 
   const handleLogout = () => {
     localStorage.removeItem("user");
     localStorage.removeItem("userName");
     localStorage.removeItem("token");
-    setIsAuthenticated(false); // now works, updates App state
+    localStorage.removeItem("userId");
+    setIsAuthenticated(false);
     navigate("/"); // redirect to login page
   };
 
   return (
     <nav className="navbar navbar-expand-lg bg-light shadow-sm py-3">
       <div className="container">
-        {/* Brand */}
         <NavLink className="navbar-brand fw-bold fs-4" to="/">
           Vigyaana
         </NavLink>
 
-        {/* Toggler (for mobile) */}
         <button
           className="navbar-toggler"
           type="button"
@@ -35,12 +47,10 @@ const Header = ({ setIsAuthenticated }) => {
           <span className="navbar-toggler-icon"></span>
         </button>
 
-        {/* Collapsible Menu */}
         <div
           className="collapse navbar-collapse justify-content-between"
           id="navbarNav"
         >
-          {/* Left-aligned links */}
           <ul className="navbar-nav">
             <li className="nav-item mx-2">
               <NavLink className="nav-link" to="/courses">
@@ -54,7 +64,6 @@ const Header = ({ setIsAuthenticated }) => {
             </li>
           </ul>
 
-          {/* Right-aligned search form + logout */}
           <div className="d-flex align-items-center mt-3 mt-lg-0">
             <form className="d-flex me-2" role="search">
               <input
@@ -69,7 +78,28 @@ const Header = ({ setIsAuthenticated }) => {
               </button>
             </form>
 
-            {/* Logout button always visible */}
+            {/* Show initials circle if user is logged in */}
+            {userInitials && (
+              <div
+                style={{
+                  width: "40px",
+                  height: "40px",
+                  borderRadius: "50%",
+                  backgroundColor: "#1d4ed8",
+                  color: "#fff",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontWeight: "600",
+                  fontSize: "1rem",
+                  marginRight: "10px",
+                }}
+                title={localStorage.getItem("userName")}
+              >
+                {userInitials}
+              </div>
+            )}
+
             <button className="btn btn-outline-danger" onClick={handleLogout}>
               Logout
             </button>

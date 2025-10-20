@@ -31,6 +31,7 @@ const CourseCard = ({ course, onEnroll, isLoggedIn, enrolled }) => {
         <button
           className="btn btn-primary w-100 mt-2"
           onClick={handleClick}
+          disabled={enrolled} // disable if already enrolled
         >
           {enrolled ? "Enrolled" : "Enroll"}
         </button>

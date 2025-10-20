@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom"; // import navigate
 
 const Dashboard = () => {
   const [enrolledCourses, setEnrolledCourses] = useState([]);
   const [error, setError] = useState(null);
+  const navigate = useNavigate(); // initialize navigate
 
-  // Get userId from localStorage
   const userId = localStorage.getItem("userId");
 
   useEffect(() => {
@@ -21,6 +22,10 @@ const Dashboard = () => {
       .then((data) => setEnrolledCourses(data))
       .catch((err) => setError(err.message));
   }, [userId]);
+
+  const handleContinueLearning = () => {
+    navigate("/courses"); // navigate to /courses without page reload
+  };
 
   if (error) {
     return (
@@ -52,66 +57,99 @@ const Dashboard = () => {
       </h2>
 
       {enrolledCourses.length === 0 ? (
-        <p
-          style={{
-            textAlign: "center",
-            color: "#64748b",
-            fontSize: "1.1rem",
-            backgroundColor: "#fff",
-            borderRadius: "10px",
-            padding: "40px",
-            boxShadow: "0 4px 10px rgba(0,0,0,0.05)",
-            maxWidth: "600px",
-            margin: "0 auto",
-          }}
-        >
-          You haven't enrolled in any courses yet.
-        </p>
+        <div style={{ textAlign: "center" }}>
+          <p
+            style={{
+              color: "#64748b",
+              fontSize: "1.1rem",
+              backgroundColor: "#fff",
+              borderRadius: "10px",
+              padding: "40px",
+              boxShadow: "0 4px 10px rgba(0,0,0,0.05)",
+              maxWidth: "600px",
+              margin: "0 auto 20px",
+            }}
+          >
+            You haven't enrolled in any courses yet.
+          </p>
+          <button
+            onClick={handleContinueLearning}
+            style={{
+              backgroundColor: "#1d4ed8",
+              color: "#fff",
+              border: "none",
+              padding: "10px 20px",
+              borderRadius: "5px",
+              cursor: "pointer",
+              fontWeight: "600",
+            }}
+          >
+            Continue Learning
+          </button>
+        </div>
       ) : (
-        <div
-          style={{
-            display: "flex",
-            flexWrap: "wrap",
-            gap: "20px",
-            justifyContent: "center",
-          }}
-        >
-          {enrolledCourses.map((course) => (
-            <div
-              key={course.courseId || course._id}
+        <>
+          <div
+            style={{
+              display: "flex",
+              flexWrap: "wrap",
+              gap: "20px",
+              justifyContent: "center",
+            }}
+          >
+            {enrolledCourses.map((course) => (
+              <div
+                key={course.courseId || course._id}
+                style={{
+                  width: "18rem",
+                  backgroundColor: "#fff",
+                  borderRadius: "10px",
+                  boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
+                  padding: "20px",
+                  transition: "transform 0.2s ease, box-shadow 0.2s ease",
+                  cursor: "pointer",
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = "translateY(-5px)";
+                  e.currentTarget.style.boxShadow = "0 8px 16px rgba(0,0,0,0.15)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = "translateY(0)";
+                  e.currentTarget.style.boxShadow = "0 4px 8px rgba(0,0,0,0.1)";
+                }}
+              >
+                <h3 style={{ color: "#1d4ed8", fontSize: "1.25rem", marginBottom: "10px" }}>
+                  {course.title}
+                </h3>
+                <p>Course ID: {course.courseId}</p>
+                <p>Instructor: {course.instructor}</p>
+                <p>Duration: {course.duration}</p>
+                <p style={{ color: "#475569", fontSize: "0.95rem" }}>
+                  Enrolled At:{" "}
+                  <span style={{ fontWeight: "500" }}>
+                    {new Date(course.enrolledAt).toLocaleString()}
+                  </span>
+                </p>
+              </div>
+            ))}
+          </div>
+          <div style={{ textAlign: "center", marginTop: "30px" }}>
+            <button
+              onClick={handleContinueLearning}
               style={{
-                width: "18rem",
-                backgroundColor: "#fff",
-                borderRadius: "10px",
-                boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
-                padding: "20px",
-                transition: "transform 0.2s ease, box-shadow 0.2s ease",
+                backgroundColor: "#1d4ed8",
+                color: "#fff",
+                border: "none",
+                padding: "10px 20px",
+                borderRadius: "5px",
                 cursor: "pointer",
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = "translateY(-5px)";
-                e.currentTarget.style.boxShadow = "0 8px 16px rgba(0,0,0,0.15)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = "translateY(0)";
-                e.currentTarget.style.boxShadow = "0 4px 8px rgba(0,0,0,0.1)";
+                fontWeight: "600",
               }}
             >
-              <h3 style={{ color: "#1d4ed8", fontSize: "1.25rem", marginBottom: "10px" }}>
-                {course.title}
-              </h3>
-              <p>Course ID: {course.courseId}</p>
-              <p>Instructor: {course.instructor}</p>
-              <p>Duration: {course.duration}</p>
-              <p style={{ color: "#475569", fontSize: "0.95rem" }}>
-                Enrolled At:{" "}
-                <span style={{ fontWeight: "500" }}>
-                  {new Date(course.enrolledAt).toLocaleString()}
-                </span>
-              </p>
-            </div>
-          ))}
-        </div>
+              Continue Learning
+            </button>
+          </div>
+        </>
       )}
     </div>
   );
