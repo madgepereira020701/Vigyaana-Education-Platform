@@ -5,8 +5,8 @@ import Dashboard from "./pages/Dashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
 import React, { useState, useEffect } from "react";
 import Auth from "./components/Authentication/Auth/Auth";
-import ChangePassword from "./components/Authentication/ChangePassword/ChangePassword";
-import ConfirmEmail from "./components/Authentication/ConfirmEmail/ConfirmEmail";
+// import ChangePassword from "./components/Authentication/ChangePassword/ChangePassword";
+// import ConfirmEmail from "./components/Authentication/ConfirmEmail/ConfirmEmail";
 
 
 function App() {
@@ -41,8 +41,8 @@ function App() {
                 )
               }
             />
-                      <Route path="/changepassword" element={<ChangePassword />} />
-          <Route path="/confirmemail" element={<ConfirmEmail/>} />
+                      {/* <Route path="/changepassword" element={<ChangePassword />} />
+          <Route path="/confirmemail" element={<ConfirmEmail/>} /> */}
 
             <Route
               path="/courses"
