@@ -32,7 +32,7 @@ function App() {
               path="/"
               element={
                 isAuthenticated ? (
-                  <Navigate to="/courses" />
+                  <Navigate to="/dashboard" />
                 ) : (
                   <Auth
                     setIsAuthenticated={setIsAuthenticated}
