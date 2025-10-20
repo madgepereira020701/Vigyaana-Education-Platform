@@ -122,35 +122,37 @@ API.userlogin = async (loginData) => {
   return await response.json();
 };
 
-API.passwordresetrequest = async (passwordresetrequestData) => {
-  console.log("Request data being sent:", passwordresetrequestData); // Log data
+// Future enhancements for password reset functionality
+//
+// API.passwordresetrequest = async (passwordresetrequestData) => {
+//   console.log("Request data being sent:", passwordresetrequestData); // Log data
 
-  const response = await fetch("http://localhost:3000/passwordresetrequest", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(passwordresetrequestData),
-  });
+//   const response = await fetch("http://localhost:3000/passwordresetrequest", {
+//     method: "POST",
+//     headers: {
+//       "Content-Type": "application/json",
+//     },
+//     body: JSON.stringify(passwordresetrequestData),
+//   });
 
-  if (!response.ok) {
-    throw new Error(`HTTP error! status: ${response.status}`);
-  }
+//   if (!response.ok) {
+//     throw new Error(`HTTP error! status: ${response.status}`);
+//   }
 
-  return await response.json();
-};
+//   return await response.json();
+// };
 
-API.updatePassword = async (token, resetpassword) => {
-  const response = await fetch(
-    `http://localhost:3000/updatepassword/${token}`,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(resetpassword),
-    }
-  );
-  return await response.json();
-};
+// API.updatePassword = async (token, resetpassword) => {
+//   const response = await fetch(
+//     `http://localhost:3000/updatepassword/${token}`,
+//     {
+//       method: "POST",
+//       headers: {
+//         "Content-Type": "application/json",
+//       },
+//       body: JSON.stringify(resetpassword),
+//     }
+//   );
+//   return await response.json();
+// };
 export { API };
