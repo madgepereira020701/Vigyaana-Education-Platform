@@ -35,7 +35,7 @@ Find website live at: [https://inquisitive-druid-af8f26.netlify.app/](https://in
    - Build Command: npm install  
    - Start Command: npx nodemon  
 3. Added environment variables (MongoDB URL, Frontend URL, JWT Secret).  
-4. Deployed successfully and replaced all localhost links in the frontend with the Render web service URL.
+4. Deployed successfully and replaced all localhost links in the frontend folder with the Render web service URL:[https://vigyaana-education-platform.onrender.com](https://vigyaana-education-platform.onrender.com).
 
 ### 2. Frontend (Netlify)
 1. Built the project:  
