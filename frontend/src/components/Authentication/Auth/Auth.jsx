@@ -57,7 +57,7 @@ const Auth = ({ setIsAuthenticated, setUserName }) => {
     if (field === 'email' && !validateEmail(value)) {
       newWarnings.email = 'Please enter a valid email address.';
     } else if (field === 'password' && !validatePassword(value)) {
-      newWarnings.password = 'Password must be at least 6 characters long.';
+      newWarnings.password = 'Password must be at least 6 characters long.It should include letters, numbers and special characters';
     } else {
       delete newWarnings[field];
     }
